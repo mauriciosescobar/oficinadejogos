@@ -23,8 +23,8 @@ public class MainActivity extends Activity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 
         // Armazena em variáveis globais
-        Constants.SCREEN_WIDTH = dm.widthPixels;
-        Constants.SCREEN_HEIGHT = dm.heightPixels;
+        Metrics.SCREEN_WIDTH = dm.widthPixels;
+        Metrics.SCREEN_HEIGHT = dm.heightPixels;
 
         setContentView(new GamePanel(this));
    }

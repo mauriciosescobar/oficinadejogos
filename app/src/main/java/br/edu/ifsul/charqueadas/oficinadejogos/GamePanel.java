@@ -3,6 +3,7 @@ package br.edu.ifsul.charqueadas.oficinadejogos;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -33,6 +34,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
 
+
+
     }
 
     @Override
@@ -54,5 +57,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         player.draw( canvas );
 
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        player.onTouchEvent(event);
+
+        return true;
     }
 }
