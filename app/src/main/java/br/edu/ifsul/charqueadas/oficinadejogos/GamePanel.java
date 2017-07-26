@@ -12,6 +12,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
 
     private Player player;
+    private GameMap map;
 
     public GamePanel(Context context) {
         super(context);
@@ -21,6 +22,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         thread = new MainThread(getHolder(), this);
 
         player = new Player(context);
+
+        map = new GameMap(context);
 
         setFocusable(true);
     }
@@ -55,8 +58,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         canvas.drawColor(Color.DKGRAY);
 
-        player.draw( canvas );
+        map.draw( canvas );
 
+        player.draw( canvas );
     }
 
     @Override
