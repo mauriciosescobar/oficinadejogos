@@ -1,4 +1,4 @@
-package br.edu.ifsul.charqueadas.oficinadejogos;
+package br.edu.ifsul.charqueadas.oficinadejogos.core;
 
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
@@ -9,9 +9,8 @@ public class MainThread extends Thread {
     private final SurfaceHolder surfaceHolder;
 
     private boolean running;
-    private long MAX_FPS = 30;
 
-    public MainThread(SurfaceHolder surfaceHolder, GamePanel panel ) {
+    public MainThread(SurfaceHolder surfaceHolder, GamePanel panel) {
         super();
         this.gamePanel = panel;
         this.surfaceHolder = surfaceHolder;
@@ -23,7 +22,7 @@ public class MainThread extends Thread {
         running = true;
 
         long startTime;
-        long fpsInterval = 1000 / MAX_FPS;
+        long fpsInterval = 1000 / gamePanel.getMAX_FPS();
         long difTime;
 
         while ( running ) {
@@ -35,9 +34,7 @@ public class MainThread extends Thread {
                 canvas = surfaceHolder.lockCanvas();
 
                 synchronized (canvas) {
-                    // atualizacao do estado do jogo - logica
                     this.gamePanel.update();
-                    // atualização do parte visual - desenho
                     this.gamePanel.draw(canvas);
                 }
 

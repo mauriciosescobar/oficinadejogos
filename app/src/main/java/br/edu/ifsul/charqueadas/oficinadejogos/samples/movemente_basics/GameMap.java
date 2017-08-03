@@ -1,10 +1,13 @@
-package br.edu.ifsul.charqueadas.oficinadejogos;
+package br.edu.ifsul.charqueadas.oficinadejogos.samples.movemente_basics;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+
+import br.edu.ifsul.charqueadas.oficinadejogos.R;
+import br.edu.ifsul.charqueadas.oficinadejogos.core.Metrics;
 
 public class GameMap {
 

@@ -1,4 +1,4 @@
-package br.edu.ifsul.charqueadas.oficinadejogos;
+package br.edu.ifsul.charqueadas.oficinadejogos.core;
 
 public class Metrics {
     public static int SCREEN_WIDTH;

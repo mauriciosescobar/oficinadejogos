@@ -1,4 +1,4 @@
-package br.edu.ifsul.charqueadas.oficinadejogos;
+package br.edu.ifsul.charqueadas.oficinadejogos.samples.spacebattle;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,11 +8,14 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.MotionEvent;
-import android.widget.Toast;
 
-public class Player {
+import br.edu.ifsul.charqueadas.oficinadejogos.R;
+import br.edu.ifsul.charqueadas.oficinadejogos.core.GameObject;
+import br.edu.ifsul.charqueadas.oficinadejogos.core.Metrics;
 
-    private Bitmap [] frames;
+public class SpaceShip implements GameObject {
+
+    private Bitmap[] frames;
     private Paint paint;
     private Context context;
     private Point destination;
@@ -25,11 +28,29 @@ public class Player {
     private enum Direction { LEFT, RIGHT };
     private Direction currentDirection;
 
-    public Player(Context context) {
+    private long lastFiredTime;
+
+    private SpaceBattleGamePanel canvas;
+
+    private int sts = 0; // scaled tile size
+
+    public SpaceShip(Context context, SpaceBattleGamePanel canvas) {
         this.paint = new Paint();
         this.context = context;
 
-        this.frames = new Bitmap[] { BitmapFactory.decodeResource(context.getResources(), R.drawable.aliengreen), BitmapFactory.decodeResource(context.getResources(), R.drawable.aliengreen_walk1), BitmapFactory.decodeResource(context.getResources(), R.drawable.aliengreen_walk2), BitmapFactory.decodeResource(context.getResources(), R.drawable.aliengreen_walk1_left), BitmapFactory.decodeResource(context.getResources(), R.drawable.aliengreen_walk2_left) };
+        this.canvas = canvas;
+
+        sts = (int) (72.0f * Metrics.SCALED_DENSITY);
+
+        Bitmap tiles =
+            BitmapFactory.decodeResource(context.getResources(), R.drawable.spaceship);
+
+        frames = new Bitmap[4];
+
+        frames[0] = Bitmap.createBitmap(tiles, 0,     0, sts, sts);
+        frames[1] = Bitmap.createBitmap(tiles, sts,   0, sts, sts);
+        frames[2] = Bitmap.createBitmap(tiles, sts*2, 0, sts, sts);
+        frames[3] = Bitmap.createBitmap(tiles, sts*3, 0, sts, sts);
 
         int x = Metrics.SCREEN_WIDTH/2 - frames[0].getWidth()/2;
         int y = Metrics.SCREEN_HEIGHT/2 - frames[0].getHeight()/2;
@@ -40,6 +61,7 @@ public class Player {
 
         lastUpdateTime = lastFrameTime = System.currentTimeMillis();
 
+        lastFiredTime = System.currentTimeMillis();
     }
 
     public void update() {
@@ -76,43 +98,36 @@ public class Player {
             }
         }
 
-        if (isMoving) {
-            if ((System.currentTimeMillis() - lastFrameTime) > 250) {
 
-                framePosition++;
+        if ((System.currentTimeMillis() - lastFrameTime) > 250) {
 
-                if ( currentDirection == Direction.RIGHT) {
-                    if (framePosition > 2) // limites do movimento para a direita
-                        framePosition = 1; // inicio do movimento para a direita
-                }
-                else {
-                    if ( framePosition < 3 )
-                        framePosition = 3;
+            framePosition++;
 
-                    if (framePosition > 4) // limites do movimento para a esquerda
-                        framePosition = 3; // inicio do movimento para a esquerda
-                }
-
-                lastFrameTime = System.currentTimeMillis();
+            if (framePosition > 3) {
+                framePosition = 0;
             }
-        } else {
-            framePosition = 0;
+
+            lastFrameTime = System.currentTimeMillis();
+        }
+
+
+        // gera um tiro a cada 2 segundos
+        if ((System.currentTimeMillis() - lastFiredTime) > 1000 ) {
+
+            Fire newFire = new Fire(
+                    rectPlayer.left + (sts/2) - 15,
+                    rectPlayer.top - 30);
+
+            canvas.addFire( newFire );
+
+            lastFiredTime = System.currentTimeMillis();
         }
 
         lastUpdateTime = System.currentTimeMillis();
     }
 
     public void draw(Canvas canvas) {
-
-//        Paint p =  new Paint();
-//        p.setTextSize(25);
-//        p.setColor(Color.WHITE);
-//        canvas.drawText("F_Time: " + lastFrameTime, 10, 30, p);
-//        canvas.drawText("C_Time: " + System.currentTimeMillis(), 10, 60, p);
-//        canvas.drawText("L_Time: " + lastUpdateTime, 10, 90, p);
-
         canvas.drawBitmap(frames[framePosition], null, rectPlayer, paint);
-
     }
 
     public void onTouchEvent(MotionEvent event) {
