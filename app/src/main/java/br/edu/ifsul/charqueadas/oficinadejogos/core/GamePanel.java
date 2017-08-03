@@ -79,10 +79,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
         for (GameObject go : objects)
             go.onTouchEvent(event);
-
         return true;
     }
 }

@@ -2,6 +2,7 @@ package br.edu.ifsul.charqueadas.oficinadejogos.samples.spacebattle;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.view.MotionEvent;
 
 import java.util.ArrayList;
 
@@ -35,5 +36,10 @@ public class SpaceBattleGamePanel extends GamePanel {
 
         for(Fire f : fires)
             f.draw(canvas);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
     }
 }

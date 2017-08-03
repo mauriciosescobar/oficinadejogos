@@ -98,7 +98,6 @@ public class SpaceShip implements GameObject {
             }
         }
 
-
         if ((System.currentTimeMillis() - lastFrameTime) > 250) {
 
             framePosition++;
@@ -110,13 +109,12 @@ public class SpaceShip implements GameObject {
             lastFrameTime = System.currentTimeMillis();
         }
 
-
         // gera um tiro a cada 2 segundos
         if ((System.currentTimeMillis() - lastFiredTime) > 1000 ) {
 
             Fire newFire = new Fire(
-                    rectPlayer.left + (sts/2) - 15,
-                    rectPlayer.top - 30);
+                    rectPlayer.left + (sts/2) - (Fire.w /2),
+                    rectPlayer.top - 30, context);
 
             canvas.addFire( newFire );
 
